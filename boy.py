@@ -118,9 +118,12 @@ class Boy:
             self.wake_up()
 
     def update(self):
-        self.check_sleep_timeout(monotonic())
+        now = monotonic()
+        self.check_sleep_timeout(now)
         if self.state in ('IDLE', 'RUN'):
             self.animate()
+        elif self.state == 'AUTORUN':
+            self.auto_run.update(now)
 
     def update_idle(self):
         self.frame = (self.frame + 1) % 8
