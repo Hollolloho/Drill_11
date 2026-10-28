@@ -145,7 +145,9 @@ class Boy:
             self.auto_run.draw()
         elif self.state == 'SLEEP':
             # The rotated frame's visible bottom rests on the grass.
-            self.image.clip_composite_draw(0, 300, 100, 100, pi / 2, '', self.x, self.y - 17, 100, 100)
+            row = 300 if self.face_dir == 1 else 200
+            angle = pi / 2 if self.face_dir == 1 else -pi / 2
+            self.image.clip_composite_draw(0, row, 100, 100, angle, '', self.x, self.y - 17, 100, 100)
         else:
             row = 100 if self.state == 'RUN' else 300
             if self.face_dir == -1:
