@@ -46,6 +46,13 @@ class AutoRun:
             if boy.face_dir > 0:
                 boy.face_dir = -1
 
+    def draw(self):
+        boy = self.boy
+        size = 100 * self.scale
+        row = 100 if boy.face_dir == 1 else 0
+        boy.image.clip_draw(boy.frame * 100, row, 100, 100,
+                            boy.x, boy.y - 50 + size / 2, size, size)
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
