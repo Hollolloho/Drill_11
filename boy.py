@@ -65,8 +65,9 @@ class Boy:
         self.face_dir = 1
         self.pressed_directions = []
         self.image = load_image('animation_sheet.png')
+        self.auto_run = AutoRun(self)
         self.state_machine = Machine(
-            model=self, states=['IDLE', 'RUN', 'SLEEP'], initial='IDLE', auto_transitions=False
+            model=self, states=['IDLE', 'RUN', 'SLEEP', 'AUTORUN'], initial='IDLE', auto_transitions=False
         )
         # Internal transitions update the animation without leaving the current state.
         self.state_machine.add_transition('animate', 'IDLE', None, after='update_idle')
@@ -75,10 +76,18 @@ class Boy:
         self.state_machine.add_transition('stop_running', 'RUN', 'IDLE')
         self.state_machine.add_transition('fall_asleep', 'IDLE', 'SLEEP')
         self.state_machine.add_transition('wake_up', 'SLEEP', 'IDLE')
+        self.state_machine.add_transition('start_auto_run', 'IDLE', 'AUTORUN')
+        self.state_machine.add_transition('stop_auto_run', 'AUTORUN', 'IDLE')
         self.on_enter_IDLE()
 
     def on_enter_IDLE(self):
         self.idle_since = monotonic()
+
+    def on_enter_AUTORUN(self):
+        self.auto_run.enter()
+
+    def on_exit_AUTORUN(self):
+        self.auto_run.exit()
 
     def check_sleep_timeout(self, now):
         if self.state == 'IDLE' and now - self.idle_since >= 5:
