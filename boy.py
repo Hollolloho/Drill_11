@@ -53,6 +53,11 @@ class AutoRun:
         boy.image.clip_draw(boy.frame * 100, row, 100, 100,
                             boy.x, boy.y - 50 + size / 2, size, size)
 
+    def exit(self):
+        self.scale = 1.0
+        self.boy.x = max(50, min(get_canvas_width() - 50, self.boy.x))
+
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
