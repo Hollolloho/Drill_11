@@ -7,6 +7,17 @@ from pico2d import (
 )
 from transitions import Machine
 
+
+class AutoRun:
+    DURATION = 5.0
+    INITIAL_SPEED = 500.0
+    ACCELERATION = 80.0
+    SCALE_GROWTH = 0.15
+
+    def __init__(self, boy):
+        self.boy = boy
+        self.scale = 1.0
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
