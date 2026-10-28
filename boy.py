@@ -2,7 +2,7 @@ from math import pi
 from time import monotonic
 
 from pico2d import (
-    SDL_KEYDOWN, SDL_KEYUP, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE,
+    SDL_KEYDOWN, SDL_KEYUP, SDLK_a, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE,
     get_canvas_width, load_image,
 )
 from transitions import Machine
@@ -121,6 +121,8 @@ class Boy:
                     self.stop_running()
         elif self.state == 'SLEEP' and event.type == SDL_KEYDOWN and event.key == SDLK_SPACE:
             self.wake_up()
+        elif self.state == 'IDLE' and event.type == SDL_KEYDOWN and event.key == SDLK_a:
+            self.start_auto_run()
 
     def update(self):
         now = monotonic()
