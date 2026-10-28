@@ -89,12 +89,17 @@ class Boy:
     def on_exit_AUTORUN(self):
         self.auto_run.exit()
 
+    def check_auto_run_timeout(self, now):
+        if self.state == 'AUTORUN' and self.auto_run.expired(now):
+            self.stop_auto_run()
+
     def check_sleep_timeout(self, now):
         if self.state == 'IDLE' and now - self.idle_since >= 5:
             self.fall_asleep()
 
     def handle_event(self, event):
         now = monotonic()
+        self.check_auto_run_timeout(now)
         self.check_sleep_timeout(now)
         if self.state == 'IDLE':
             self.idle_since = now
@@ -119,6 +124,7 @@ class Boy:
 
     def update(self):
         now = monotonic()
+        self.check_auto_run_timeout(now)
         self.check_sleep_timeout(now)
         if self.state in ('IDLE', 'RUN'):
             self.animate()
