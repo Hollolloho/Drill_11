@@ -133,7 +133,9 @@ class Boy:
         self.x = max(50, min(get_canvas_width() - 50, self.x + self.face_dir * 5))
 
     def draw(self):
-        if self.state == 'SLEEP':
+        if self.state == 'AUTORUN':
+            self.auto_run.draw()
+        elif self.state == 'SLEEP':
             # The rotated frame's visible bottom rests on the grass.
             self.image.clip_composite_draw(0, 300, 100, 100, pi / 2, '', self.x, self.y - 17, 100, 100)
         else:
