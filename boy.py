@@ -72,7 +72,7 @@ class Boy:
         # Internal transitions update the animation without leaving the current state.
         self.state_machine.add_transition('animate', 'IDLE', None, after='update_idle')
         self.state_machine.add_transition('animate', 'RUN', None, after='update_run')
-        self.state_machine.add_transition('start_running', ['IDLE', 'SLEEP'], 'RUN')
+        self.state_machine.add_transition('start_running', ['IDLE', 'SLEEP', 'AUTORUN'], 'RUN')
         self.state_machine.add_transition('stop_running', 'RUN', 'IDLE')
         self.state_machine.add_transition('fall_asleep', 'IDLE', 'SLEEP')
         self.state_machine.add_transition('wake_up', 'SLEEP', 'IDLE')
@@ -108,7 +108,7 @@ class Boy:
                 self.pressed_directions.remove(event.key)
             self.pressed_directions.append(event.key)
             self.face_dir = -1 if event.key == SDLK_LEFT else 1
-            if self.state in ('IDLE', 'SLEEP'):
+            if self.state in ('IDLE', 'SLEEP', 'AUTORUN'):
                 self.frame = 0
                 self.start_running()
         elif event.type == SDL_KEYUP and event.key in (SDLK_LEFT, SDLK_RIGHT):
