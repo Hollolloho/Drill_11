@@ -26,6 +26,26 @@ class AutoRun:
     def expired(self, now):
         return now - self.started_at >= self.DURATION
 
+    def update(self, now):
+        elapsed = now - self.started_at
+        delta = now - self.last_update
+        self.last_update = now
+        self.scale = 1.0 + self.SCALE_GROWTH * elapsed
+        speed = self.INITIAL_SPEED + self.ACCELERATION * elapsed
+        boy = self.boy
+        boy.frame = (boy.frame + 1) % 8
+        boy.x += boy.face_dir * speed * delta
+        margin = 50 * self.scale
+        right_edge = get_canvas_width() - margin
+        if boy.x <= margin:
+            boy.x = margin
+            if boy.face_dir < 0:
+                boy.face_dir = 1
+        elif boy.x >= right_edge:
+            boy.x = right_edge
+            if boy.face_dir > 0:
+                boy.face_dir = -1
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
