@@ -18,6 +18,14 @@ class AutoRun:
         self.boy = boy
         self.scale = 1.0
 
+    def enter(self):
+        self.started_at = self.last_update = monotonic()
+        self.scale = 1.0
+        self.boy.frame = 0
+
+    def expired(self, now):
+        return now - self.started_at >= self.DURATION
+
 class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
